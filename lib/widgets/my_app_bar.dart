@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/widgets/SettingsWidget.dart';
+import 'package:weather_app/pages/settings_page.dart';
+import 'package:weather_app/styles.dart';
 
 class MyAppBar extends StatelessWidget {
   @override
@@ -9,7 +10,7 @@ class MyAppBar extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-          color: Color(0xffEA6E4B),
+          color: primaryColor,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(35),
               bottomRight: Radius.circular(35)),
@@ -21,12 +22,9 @@ class MyAppBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              "WeatherApp",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 34,
-                  fontWeight: FontWeight.w600),
+            const Text(
+              'WeatherApp',
+              style: appBarTextStyle,
             ),
             IconButton(
                 icon: Icon(
@@ -35,10 +33,8 @@ class MyAppBar extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SettingsWidget()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SettingsPage()));
                 })
           ],
         ),

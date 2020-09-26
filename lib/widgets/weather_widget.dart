@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:weather_app/Services/ApiService.dart';
-import 'package:weather_app/models/WeatherModel.dart';
+import 'package:weather_app/services/api_service.dart';
+import 'package:weather_app/models/weather_model.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app/store/CitiesStore.dart';
-import 'package:weather_app/store/SettingsStore.dart';
+import 'package:weather_app/store/cities_store.dart';
+import 'package:weather_app/store/settings_store.dart';
+import 'package:weather_app/styles.dart';
 
 class WeatherWidget extends StatelessWidget {
   String _name;
   Position _position;
   bool _isLiked;
-  WeatherWidget(this._name, this._position, this._isLiked);
+  int _id;
+  WeatherWidget(this._name, this._position, this._isLiked, this._id);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +23,11 @@ class WeatherWidget extends StatelessWidget {
 
     return FutureBuilder(
       future: _position == null
-          ? ApiService().fetchWeatherByName(_name)
-          : ApiService()
-              .fetchWeatherByLonLat(_position.longitude, _position.latitude),
+          ? _name == null
+              ? ApiService().fetchWeatherById(_id, _settingsStore.language)
+              : ApiService().fetchWeatherByName(_name, _settingsStore.language)
+          : ApiService().fetchWeatherByLonLat(
+              _position.longitude, _position.latitude, _settingsStore.language),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           WeatherModel _weatherModel = snapshot.data;
@@ -33,10 +38,7 @@ class WeatherWidget extends StatelessWidget {
               {
                 _tempDataText = Text(
                   _weatherModel.tempCel.toString() + '°C',
-                  style: TextStyle(
-                      color: Color(0xff48484A),
-                      fontSize: 36,
-                      fontWeight: FontWeight.w600),
+                  style: tempTextStyle,
                 );
               }
               break;
@@ -44,10 +46,7 @@ class WeatherWidget extends StatelessWidget {
               {
                 _tempDataText = Text(
                   _weatherModel.tempKel.toString() + '°K',
-                  style: TextStyle(
-                      color: Color(0xff48484A),
-                      fontSize: 36,
-                      fontWeight: FontWeight.w600),
+                  style: tempTextStyle,
                 );
               }
               break;
@@ -55,16 +54,13 @@ class WeatherWidget extends StatelessWidget {
               {
                 _tempDataText = Text(
                   _weatherModel.tempFahr.toString() + '°F',
-                  style: TextStyle(
-                      color: Color(0xff48484A),
-                      fontSize: 36,
-                      fontWeight: FontWeight.w600),
+                  style: tempTextStyle,
                 );
               }
               break;
           }
           return Container(
-              margin: EdgeInsets.only(bottom: 25),
+              margin: const EdgeInsets.only(bottom: 15),
               width: MediaQuery.of(context).size.width * 0.95,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,10 +70,7 @@ class WeatherWidget extends StatelessWidget {
                     children: [
                       Text(
                         _weatherModel.name,
-                        style: TextStyle(
-                            color: Color(0xff48484A),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600),
+                        style: cityNameTextStyle,
                       ),
                       IconButton(
                         icon: this._position != null
@@ -88,9 +81,10 @@ class WeatherWidget extends StatelessWidget {
                         onPressed: () {
                           if (this._position == null) {
                             if (this._isLiked) {
-                              _citiesStore.removeCity(_weatherModel.name);
+                              _citiesStore.removeCity(_weatherModel.id);
                             } else {
-                              _citiesStore.addCity(_weatherModel.name, context);
+                              _citiesStore.addCity(_weatherModel.id);
+                              Navigator.pop(context);
                             }
                           }
                         },
@@ -111,10 +105,7 @@ class WeatherWidget extends StatelessWidget {
                           ),
                           Text(
                             _weatherModel.description,
-                            style: TextStyle(
-                                color: Color(0xff48484A),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                            style: weatherDescTextStyle,
                             textAlign: TextAlign.center,
                           )
                         ],
@@ -125,27 +116,29 @@ class WeatherWidget extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.send,
                                   size: 12,
-                                  color: Color(0xff48484A),
+                                  color: greyColor,
                                 ),
                                 Text(
                                     _weatherModel.windSpeed.toString() + ' m/s',
-                                    style: TextStyle(fontSize: 18)),
+                                    style: weatherTextStyle),
                               ],
                             ),
                             Text(
-                                'Visibility: ' +
+                                FlutterI18n.translate(
+                                        context, "weather_widget.visibility") +
                                     (_weatherModel.visibility / 1000)
                                         .toString() +
                                     'km',
-                                style: TextStyle(fontSize: 18)),
+                                style: weatherTextStyle),
                             Text(
-                                'Humidity: ' +
+                                FlutterI18n.translate(
+                                        context, "weather_widget.humidity") +
                                     _weatherModel.humibity.toString() +
                                     '%',
-                                style: TextStyle(fontSize: 18))
+                                style: weatherTextStyle)
                           ],
                         ),
                       )
@@ -154,7 +147,9 @@ class WeatherWidget extends StatelessWidget {
                 ],
               ));
         } else {
-          return CircularProgressIndicator();
+          return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [const CircularProgressIndicator()]);
         }
       },
     );

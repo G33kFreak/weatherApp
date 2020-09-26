@@ -1,0 +1,21 @@
+{
+    "app_bar": {
+        "settings": "Ustawienia"
+    },
+
+    "main_page": {
+        "location_now": "Twoja lokalizacja",
+        "favorite_loc": "Ulubione lokalizacje",
+        "search_hint": "Znajdź lokalizację..."
+    },
+
+    "weather_widget": {
+        "visibility": "Widoczność: ",
+        "humidity": "Wilgotność: "
+    },
+
+    "settings": {
+        "units_selector": "Jednostki temperatury: ",
+        "languages_selector": "Język: "
+    }
+}

@@ -19,33 +19,32 @@ class DbService {
         onCreate: (db, version) async {
       await db.execute('''
         CREATE TABLE cities (
-          name TEXT PRIMARY KEY
+          id TEXT PRIMARY KEY
         )
         ''');
     }, version: 1);
   }
 
-  newCity(String cityName) async {
+  newCity(int id) async {
     final db = await database;
 
     var response = await db.rawInsert('''
       INSERT INTO cities (
-        name
+        id
       ) VALUES (?)
-    ''', [cityName]);
+    ''', [id]);
     return response;
   }
 
-  deleteCity(String name) async {
+  deleteCity(int id) async {
     final db = await database;
 
-    await db.delete('cities', where: "name = ?", whereArgs: [name]);
+    await db.delete('cities', where: "id = ?", whereArgs: [id]);
   }
 
-  Future<List<String>> getCities() async {
+  Future<List<int>> getCities() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('cities');
-
-    return List.generate(maps.length, (i) => maps[i]['name']);
+    return List.generate(maps.length, (i) => int.parse(maps[i]['id']));
   }
 }

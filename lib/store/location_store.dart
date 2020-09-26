@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 
 class LocationStore extends ChangeNotifier {
   Future<Position> getCurrentLocation() async {
-    var answer = await Geolocator().getCurrentPosition();
-    return answer;
+    var location = await Geolocator().getCurrentPosition();
+    return location;
   }
 }

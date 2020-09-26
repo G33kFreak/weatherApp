@@ -1,0 +1,21 @@
+{
+    "app_bar": {
+        "settings": "Настройки"
+    },
+
+    "main_page": {
+        "location_now": "Твоя локация",
+        "favorite_loc": "Любимые локации",
+        "search_hint": "Найти локацию..."
+    },
+
+    "weather_widget": {
+        "visibility": "Видимость: ",
+        "humidity": "Влажность: "
+    },
+
+    "settings": {
+        "units_selector": "Температура: ",
+        "languages_selector": "Язык: "
+    }
+}

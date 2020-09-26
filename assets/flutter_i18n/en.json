@@ -1,0 +1,21 @@
+{
+    "app_bar": {
+        "settings": "Settings"
+    },
+
+    "main_page": {
+        "location_now": "Your location",
+        "favorite_loc": "Favorite locations",
+        "search_hint": "Search location..."
+    },
+
+    "weather_widget": {
+        "visibility": "Visibility: ",
+        "humidity": "Humidity: "
+    },
+
+    "settings": {
+        "units_selector": "Temperature unit: ",
+        "languages_selector": "Language: "
+    }
+}

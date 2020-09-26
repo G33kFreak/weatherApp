@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsStore extends ChangeNotifier {
@@ -45,18 +44,21 @@ class SettingsStore extends ChangeNotifier {
 
   String _lanChosen = 'EN';
 
-  Locale _languageLoc;
+  Locale _languageLoc = Locale('en');
 
-  getLanguageFromPref(context) async {
+  //Locale _languageLoc;
+
+  getLanguageFromPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String lanFromPrefs = prefs.getString(_languagePrefKey);
     if (lanFromPrefs == null) {
       _writeLanguageToPrefs('EN');
     } else {
       _lanChosen = lanFromPrefs;
+      _languageLoc = Locale(lanFromPrefs.toLowerCase());
     }
-    _languageLoc = Locale(_lanChosen.toLowerCase());
-    await FlutterI18n.refresh(context, _languageLoc);
+    //_languageLoc = Locale(_lanChosen.toLowerCase());
+    //await FlutterI18n.refresh(context, _languageLoc);
   }
 
   _writeLanguageToPrefs(String language) async {
@@ -68,16 +70,24 @@ class SettingsStore extends ChangeNotifier {
 
   String get language => _lanChosen;
 
+  Locale get languageLoc => _languageLoc;
+
+  set languageLoc(Locale val) {
+    _languageLoc = val;
+    notifyListeners();
+  }
+
   set language(String val) {
     _writeLanguageToPrefs(val);
     _lanChosen = val;
     notifyListeners();
   }
 
-  changeLanguage(String val, context) async {
+  changeLanguage(String val) async {
     language = val;
-    _languageLoc = Locale(context, val.toLowerCase());
-    await FlutterI18n.refresh(context, _languageLoc);
+    languageLoc = Locale(val.toLowerCase());
+    //_languageLoc = Locale(context, val.toLowerCase());
+    //await FlutterI18n.refresh(context, _languageLoc);
     notifyListeners();
   }
 }
