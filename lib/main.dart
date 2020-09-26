@@ -10,12 +10,11 @@ import 'package:weather_app/styles.dart';
 
 void main() async {
   final FlutterI18nDelegate flutterI18nDelegate = FlutterI18nDelegate(
-    translationLoader: FileTranslationLoader(
-        useCountryCode: false,
-        fallbackFile: 'en',
-        basePath: 'assets/flutter_i18n',
-        forcedLocale: Locale('en')),
-  );
+      translationLoader: FileTranslationLoader(
+          useCountryCode: false,
+          fallbackFile: 'en',
+          basePath: 'assets/flutter_i18n',
+          forcedLocale: Locale('en')));
   WidgetsFlutterBinding.ensureInitialized();
   await flutterI18nDelegate.load(null);
   runApp(MultiProvider(
@@ -42,7 +41,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final FlutterI18nDelegate flutterI18nDelegate;
-
   MyApp(this.flutterI18nDelegate);
   @override
   Widget build(BuildContext context) {

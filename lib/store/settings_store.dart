@@ -57,8 +57,6 @@ class SettingsStore extends ChangeNotifier {
       _lanChosen = lanFromPrefs;
       _languageLoc = Locale(lanFromPrefs.toLowerCase());
     }
-    //_languageLoc = Locale(_lanChosen.toLowerCase());
-    //await FlutterI18n.refresh(context, _languageLoc);
   }
 
   _writeLanguageToPrefs(String language) async {
@@ -86,8 +84,6 @@ class SettingsStore extends ChangeNotifier {
   changeLanguage(String val) async {
     language = val;
     languageLoc = Locale(val.toLowerCase());
-    //_languageLoc = Locale(context, val.toLowerCase());
-    //await FlutterI18n.refresh(context, _languageLoc);
     notifyListeners();
   }
 }
