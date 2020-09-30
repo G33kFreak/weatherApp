@@ -7,7 +7,6 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
           color: primaryColor,

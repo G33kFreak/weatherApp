@@ -16,14 +16,15 @@ class SearchWidget extends StatelessWidget {
         ),
         const Divider(color: greyColor),
         Container(
-            margin: EdgeInsets.only(top: 10),
-            width: MediaQuery.of(context).size.width * 0.9,
+            margin: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: TextField(
                 controller: _textInputController,
                 style: TextStyle(color: primaryColor),
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderSide: BorderSide(color: primaryColor, width: 1.5),
+                        borderSide:
+                            const BorderSide(color: primaryColor, width: 1.5),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10))),
                     hintText:

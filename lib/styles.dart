@@ -16,7 +16,7 @@ const cityNameTextStyle =
 const weatherDescTextStyle =
     TextStyle(color: greyColor, fontSize: 14, fontWeight: FontWeight.w600);
 
-const weatherTextStyle = TextStyle(fontSize: 18);
+const weatherTextStyle = TextStyle(fontSize: 17);
 
 const bodyLabelTextStyle =
     TextStyle(color: greyColor, fontSize: 18, fontWeight: FontWeight.w600);

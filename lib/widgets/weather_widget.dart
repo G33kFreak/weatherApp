@@ -10,11 +10,11 @@ import 'package:weather_app/store/settings_store.dart';
 import 'package:weather_app/styles.dart';
 
 class WeatherWidget extends StatelessWidget {
-  String _name;
-  Position _position;
-  bool _isLiked;
-  int _id;
-  WeatherWidget(this._name, this._position, this._isLiked, this._id);
+  String name;
+  Position position;
+  bool isLiked;
+  int id;
+  WeatherWidget({this.name, this.position, this.isLiked, this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +22,12 @@ class WeatherWidget extends StatelessWidget {
     final CitiesStore _citiesStore = Provider.of<CitiesStore>(context);
 
     return FutureBuilder(
-      future: _position == null
-          ? _name == null
-              ? ApiService().fetchWeatherById(_id, _settingsStore.language)
-              : ApiService().fetchWeatherByName(_name, _settingsStore.language)
+      future: position == null
+          ? name == null
+              ? ApiService().fetchWeatherById(id, _settingsStore.language)
+              : ApiService().fetchWeatherByName(name, _settingsStore.language)
           : ApiService().fetchWeatherByLonLat(
-              _position.longitude, _position.latitude, _settingsStore.language),
+              position.longitude, position.latitude, _settingsStore.language),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           WeatherModel _weatherModel = snapshot.data;
@@ -61,7 +61,6 @@ class WeatherWidget extends StatelessWidget {
           }
           return Container(
               margin: const EdgeInsets.only(bottom: 15),
-              width: MediaQuery.of(context).size.width * 0.95,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -73,14 +72,14 @@ class WeatherWidget extends StatelessWidget {
                         style: cityNameTextStyle,
                       ),
                       IconButton(
-                        icon: this._position != null
+                        icon: this.position != null
                             ? Icon(Icons.location_on)
-                            : this._isLiked == true
+                            : this.isLiked == true
                                 ? Image.asset('assets/favIconFill.png')
                                 : Image.asset('assets/favIconOut.png'),
                         onPressed: () {
-                          if (this._position == null) {
-                            if (this._isLiked) {
+                          if (this.position == null) {
+                            if (this.isLiked) {
                               _citiesStore.removeCity(_weatherModel.id);
                             } else {
                               _citiesStore.addCity(_weatherModel.id);

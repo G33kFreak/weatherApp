@@ -2,21 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsStore extends ChangeNotifier {
+  SettingsStore() {
+    _syncDataWithProvider();
+  }
+
   //Temp units settings
   List<String> _tempUnits = ['Celsius', 'Kelvin', 'Fahrenheit'];
   String _unitPrefKey = 'tempUnit';
 
-  String _unitNow = 'Celsius';
-
-  getUnitFromPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String unitFromPrefs = prefs.getString(_unitPrefKey);
-    if (unitFromPrefs == null) {
-      _writeUnitToPrefs('Celsius');
-    } else {
-      _unitNow = unitFromPrefs;
-    }
-  }
+  String _unitNow;
 
   _writeUnitToPrefs(String unit) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,22 +36,9 @@ class SettingsStore extends ChangeNotifier {
 
   String _languagePrefKey = 'language';
 
-  String _lanChosen = 'EN';
+  String _lanChosen;
 
-  Locale _languageLoc = Locale('en');
-
-  //Locale _languageLoc;
-
-  getLanguageFromPref() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String lanFromPrefs = prefs.getString(_languagePrefKey);
-    if (lanFromPrefs == null) {
-      _writeLanguageToPrefs('EN');
-    } else {
-      _lanChosen = lanFromPrefs;
-      _languageLoc = Locale(lanFromPrefs.toLowerCase());
-    }
-  }
+  Locale _languageLoc;
 
   _writeLanguageToPrefs(String language) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,5 +66,22 @@ class SettingsStore extends ChangeNotifier {
     language = val;
     languageLoc = Locale(val.toLowerCase());
     notifyListeners();
+  }
+
+  //Sync with shared prefs fucntion
+  Future _syncDataWithProvider() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tempUnit = prefs.getString(_unitPrefKey);
+    var language = prefs.getString(_languagePrefKey);
+    if (tempUnit != null) {
+      changeUnit(tempUnit);
+    } else {
+      changeUnit('Celsius');
+    }
+    if (language != null) {
+      changeLanguage(language);
+    } else {
+      changeLanguage('EN');
+    }
   }
 }

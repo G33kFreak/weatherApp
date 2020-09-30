@@ -45,8 +45,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SettingsStore _settingsStore = Provider.of<SettingsStore>(context);
-    _settingsStore.getUnitFromPref();
-    _settingsStore.getLanguageFromPref();
     FlutterI18n.refresh(context, _settingsStore.languageLoc);
     return MainPage();
   }

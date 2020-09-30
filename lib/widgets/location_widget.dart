@@ -16,7 +16,7 @@ class LocationWidget extends StatelessWidget {
           style: bodyLabelTextStyle,
         ),
         const Divider(color: greyColor),
-        WeatherWidget(null, _snapshot.data, true, null),
+        WeatherWidget(position: _snapshot.data, isLiked: false),
       ],
     );
   }

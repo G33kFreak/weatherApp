@@ -14,15 +14,22 @@ class DbService {
     return _database;
   }
 
-  initDB() async {
-    return await openDatabase(join(await getDatabasesPath(), 'database.db'),
-        onCreate: (db, version) async {
-      await db.execute('''
+  _onCreate(db, version) async {
+    await db.execute('''
         CREATE TABLE cities (
           id TEXT PRIMARY KEY
         )
         ''');
-    }, version: 1);
+  }
+
+  _onUpgrade(db, oldVersion, newVersion) async {
+    await db.execute('''DROP TABLE IF EXISTS cities''');
+    _onCreate(db, newVersion);
+  }
+
+  initDB() async {
+    return await openDatabase(join(await getDatabasesPath(), 'database.db'),
+        onCreate: _onCreate, onUpgrade: _onUpgrade, version: 2);
   }
 
   newCity(int id) async {

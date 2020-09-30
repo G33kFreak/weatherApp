@@ -9,12 +9,11 @@ class ListOfCities extends StatelessWidget {
     return Consumer<CitiesStore>(
       builder: (context, cities, child) {
         return ListView.builder(
-            //shrinkWrap: true,
             padding: EdgeInsets.only(left: 5, right: 5),
             itemCount: cities.citiesIds.length,
             itemBuilder: (context, index) {
               return new WeatherWidget(
-                  null, null, true, cities.citiesIds[index]);
+                  isLiked: true, id: cities.citiesIds[index]);
             });
       },
     );

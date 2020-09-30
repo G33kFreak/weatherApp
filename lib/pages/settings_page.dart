@@ -4,16 +4,12 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/store/settings_store.dart';
 import 'package:weather_app/styles.dart';
-import 'package:weather_app/widgets/settings_selector_widget.dart';
+import 'package:weather_app/widgets/language_selector_widget.dart';
+import 'package:weather_app/widgets/unit_selector_widget.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final SettingsStore _settingsStore = Provider.of<SettingsStore>(context);
-
-    _settingsStore.getUnitFromPref();
-    _settingsStore.getLanguageFromPref();
-
     return Scaffold(
         backgroundColor: primaryColor,
         appBar: PreferredSize(
@@ -27,8 +23,6 @@ class SettingsPage extends StatelessWidget {
           ),
         ),
         body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(15),
           decoration: const BoxDecoration(
               boxShadow: [
@@ -42,8 +36,8 @@ class SettingsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // 0 for temperature units, 1 for languages
-              SettingsSelectorWidget(0),
-              SettingsSelectorWidget(1)
+              UnitSelectorWidget(),
+              LanguageSelectorWidget()
             ],
           ),
         ));

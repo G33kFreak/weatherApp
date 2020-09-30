@@ -27,9 +27,7 @@ class MainPage extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: 110),
+                  margin: EdgeInsets.only(top: 110, left: 5, right: 5),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
